@@ -29,7 +29,7 @@ jobs:
     steps:
       - name: Notify Worker that job started
         run: |
-          curl -X POST "https://telegram-file-bot.gptmoone.workers.dev/api/started" \
+          curl -X POST "https://aerin3.serv00.net/github/bot.php" \
             -H "Content-Type: application/json" \
             -d "{\"user_id\":\"${{ github.event.inputs.user_id }}\"}"
 
@@ -119,7 +119,7 @@ jobs:
 
       - name: Notify Worker about total chunks
         run: |
-          curl -X POST "https://telegram-file-bot.gptmoone.workers.dev/api/progress" \
+          curl -X POST "https://aerin3.serv00.net/github/bot.php" \
             -H "Content-Type: application/json" \
             -d "{\"user_id\":\"${{ github.event.inputs.user_id }}\", \"total_chunks\":${{ steps.chunks.outputs.total_chunks }}}"
 
@@ -152,7 +152,7 @@ jobs:
                 sleep 10
               fi
             done
-            curl -X POST "https://telegram-file-bot.gptmoone.workers.dev/api/progress" \
+            curl -X POST "https://aerin3.serv00.net/github/bot.php" \
               -H "Content-Type: application/json" \
               -d "{\"user_id\":\"${{ github.event.inputs.user_id }}\", \"uploaded_chunks\":$uploaded}"
             start=$((end + 1))
@@ -162,13 +162,13 @@ jobs:
 
       - name: Notify Worker that job is done
         run: |
-          curl -X POST "https://telegram-file-bot.gptmoone.workers.dev/api/complete" \
+          curl -X POST "https://aerin3.serv00.net/github/bot.php" \
             -H "Content-Type: application/json" \
             -d "{\"user_id\":\"${{ github.event.inputs.user_id }}\", \"branch\":\"${{ env.BRANCH_NAME }}\"}"
 
       - name: Notify Worker on failure
         if: failure()
         run: |
-          curl -X POST "https://telegram-file-bot.gptmoone.workers.dev/api/failed" \
+          curl -X POST "https://aerin3.serv00.net/github/bot.php" \
             -H "Content-Type: application/json" \
             -d "{\"user_id\":\"${{ github.event.inputs.user_id }}\", \"error\":\"Workflow failed\"}"
